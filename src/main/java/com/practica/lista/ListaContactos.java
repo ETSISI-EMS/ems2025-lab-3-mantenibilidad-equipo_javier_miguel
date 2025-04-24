@@ -29,16 +29,7 @@ public class ListaContactos {
 				 */
 				NodoPosicion npActual = aux.getListaCoordenadas();
 				NodoPosicion npAnt=null;		
-				boolean npEncontrado = false;
-				while (npActual!=null && !npEncontrado) {
-					if(npActual.getCoordenada().equals(p.getCoordenada())) {
-						npEncontrado=true;
-						npActual.setNumPersonas(npActual.getNumPersonas()+1);
-					}else {
-						npAnt = npActual;
-						npActual = npActual.getSiguiente();
-					}
-				}
+				boolean npEncontrado = encontrarNodoActual(npActual,npAnt,p);
 				if(!npEncontrado) {
 					NodoPosicion npNuevo = new NodoPosicion(p.getCoordenada(),1, null);
 					if(aux.getListaCoordenadas()==null)
@@ -63,17 +54,8 @@ public class ListaContactos {
 
 			
 			NodoPosicion npActual = nuevo.getListaCoordenadas();
-			NodoPosicion npAnt=null;	
-			boolean npEncontrado = false;
-			while (npActual!=null && !npEncontrado) {
-				if(npActual.getCoordenada().equals(p.getCoordenada())) {
-					npEncontrado=true;
-					npActual.setNumPersonas(npActual.getNumPersonas()+1);
-				}else {
-					npAnt = npActual;
-					npActual = npActual.getSiguiente();
-				}
-			}
+			NodoPosicion npAnt=null;
+			boolean npEncontrado = encontrarNodoActual(npActual,npAnt,p);
 			if(!npEncontrado) {
 				NodoPosicion npNuevo = new NodoPosicion(p.getCoordenada(),  1, null);				
 				if(nuevo.getListaCoordenadas()==null)
@@ -207,7 +189,22 @@ public class ListaContactos {
 		cadena += ";" +  aux.getFecha().getHora().toString();
 		return cadena;
 	}
-	
-	
+
+	/*NUEVA FUNCIÓN PARA EVITAR BLOQUES DUPLICADOS*/
+
+	private boolean encontrarNodoActual(NodoPosicion npActual, NodoPosicion npAnt, PosicionPersona p){
+		boolean npEncontrado = false;
+		while (npActual!=null && !npEncontrado) {
+			if(npActual.getCoordenada().equals(p.getCoordenada())) {
+				npEncontrado=true;
+				npActual.setNumPersonas(npActual.getNumPersonas()+1);
+			}else {
+				npAnt = npActual;
+				npActual = npActual.getSiguiente();
+			}
+		}
+		return npEncontrado;
+	}
+
 	
 }
